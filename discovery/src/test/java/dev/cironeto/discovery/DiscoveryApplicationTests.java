@@ -1,10 +1,10 @@
-package dev.cironeto.valhallaproject;
+package dev.cironeto.discovery;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ValhallaProjectApplicationTests {
+class DiscoveryApplicationTests {
 
     @Test
     void contextLoads() {
