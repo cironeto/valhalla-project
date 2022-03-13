@@ -24,6 +24,12 @@ public class GatewayApplication {
                         .path("/get")
                         .filters(f -> f.addRequestHeader("Hello", "World"))
                         .uri("http://httpbin.org:80"))
+
+                .route("access-control-service_route",
+                        route -> route
+                                .path("/gateway/access-control-service/**")
+                                .filters(f -> f.rewritePath("/gateway/access-control-service/(?<RID>.*)", "/access-control-service/${RID}"))
+                                .uri("http://localhost:8090"))
                 .build();
     }
 
