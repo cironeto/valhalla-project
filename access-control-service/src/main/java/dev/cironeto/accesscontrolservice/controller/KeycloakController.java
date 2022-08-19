@@ -25,4 +25,9 @@ public class KeycloakController {
 		return ResponseEntity.ok(keycloakService.createUserInKeycloak(userDto));
 	}
 
+	@PostMapping(value = "/token")
+	public ResponseEntity<String> getAccessToken(String username, String password){
+		return ResponseEntity.ok(keycloakService.getAccessToken(username, password));
+	}
+
 }

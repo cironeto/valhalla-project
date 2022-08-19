@@ -3,10 +3,10 @@ package dev.cironeto.accesscontrolservice.service;
 import dev.cironeto.accesscontrolservice.dto.UserPostRequestBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
+import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -16,11 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class KeycloakService {
@@ -57,8 +55,7 @@ public class KeycloakService {
 		user.setLastName(userDto.getLastName());
 		user.setFirstName(userDto.getFirstName());
 		user.setEnabled(true);
-		user.setAttributes(Collections.singletonMap("origin", List.of("demo")));
-		user.setRealmRoles(List.of("view"));
+		user.setRealmRoles(List.of("USER"));
 
 		CredentialRepresentation passwordCredential = new CredentialRepresentation();
 		passwordCredential.setTemporary(false);
@@ -79,6 +76,18 @@ public class KeycloakService {
 				.realm(REALM)
 				.resteasyClient(new ResteasyClientBuilder().connectionPoolSize(10).build())
 				.build().realm(REALM);
+	}
+
+	public String getAccessToken(String username, String password){
+		Keycloak instance = Keycloak.getInstance(
+				SERVER_URL,
+				REALM,
+				username,
+				password,
+				CLIENT_ID,
+				SECRET_KEY);
+		String accessTokenString = instance.tokenManager().getAccessTokenString();
+		return accessTokenString;
 	}
 
 }

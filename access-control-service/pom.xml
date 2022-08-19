@@ -54,6 +54,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -68,7 +78,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.6</version>
+            <version>1.6.9</version>
         </dependency>
 
         <dependency>
@@ -87,7 +97,6 @@
             <artifactId>keycloak-spring-boot-starter</artifactId>
             <version>18.0.0</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.keycloak</groupId>

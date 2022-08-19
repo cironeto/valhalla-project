@@ -21,4 +21,9 @@ public class DummyEndpointController {
     public ResponseEntity<Page<DummyData>> findAll(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(dummyEndpointRepository.findAll(pageable));
     }
+
+    @GetMapping("/teste")
+    public String teste() {
+        return "Hellooowww";
+    }
 }
