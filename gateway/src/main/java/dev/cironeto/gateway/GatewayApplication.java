@@ -30,6 +30,11 @@ public class GatewayApplication {
                                 .path("/gateway/keycloak/**")
                                 .filters(f -> f.rewritePath("/gateway/keycloak/(?<RID>.*)", "/keycloak/${RID}"))
                                 .uri("http://localhost:8090"))
+                .route("business_function_route",
+                        route -> route
+                                .path("/gateway/business-function/**")
+                                .filters(f -> f.rewritePath("/gateway/business-function/(?<RID>.*)", "/business-function/${RID}"))
+                                .uri("http://localhost:8090"))
                 .build();
     }
 

@@ -44,7 +44,7 @@ public class KeycloakService {
 			createdId = UUID.fromString(CreatedResponseUtil.getCreatedId(response));
 			appUserService.saveUser(createdId, userDto);
 		}catch (RuntimeException e){
-			throw new BadRequestException("E-mail já cadastrado");
+			throw new BadRequestException("E-mail already exists");
 		}
 		return createdId;
 	}

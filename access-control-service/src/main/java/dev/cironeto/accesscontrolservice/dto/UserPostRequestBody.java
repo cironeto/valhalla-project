@@ -20,10 +20,10 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class UserPostRequestBody {
 
-    @NotNull
+    @NotBlank
     @Email
     private String email;
-    @NotNull @NotBlank
+    @NotBlank
     private String password;
     @NotBlank
     private String firstName;

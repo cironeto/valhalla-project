@@ -24,7 +24,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AppUser {
 
     @Id
@@ -32,6 +31,7 @@ public class AppUser {
     private UUID id;
     @Column(unique = true)
     @Email
+    @NotBlank
     private String email;
     @NotBlank
     private String firstName;
