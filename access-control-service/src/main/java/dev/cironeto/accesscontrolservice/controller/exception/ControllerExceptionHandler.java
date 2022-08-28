@@ -15,7 +15,7 @@ import java.util.Set;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<StandardError> entityNotFound(ConstraintViolationException e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> validationError(ConstraintViolationException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError standardError = new StandardError();
         standardError.setTimestamp(Instant.now());

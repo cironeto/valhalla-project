@@ -1,5 +1,6 @@
 package dev.cironeto.accesscontrolservice.service;
 
+import dev.cironeto.accesscontrolservice.dto.AccessTokenResponseBody;
 import dev.cironeto.accesscontrolservice.dto.UserPostRequestBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +79,8 @@ public class KeycloakService {
 				.build().realm(REALM);
 	}
 
-	public String getAccessToken(String username, String password){
+	public AccessTokenResponseBody getAccessToken(String username, String password){
+		AccessTokenResponseBody token = new AccessTokenResponseBody();
 		Keycloak instance = Keycloak.getInstance(
 				SERVER_URL,
 				REALM,
@@ -86,8 +88,8 @@ public class KeycloakService {
 				password,
 				CLIENT_ID,
 				SECRET_KEY);
-		String accessTokenString = instance.tokenManager().getAccessTokenString();
-		return accessTokenString;
+		token.setAccessToken(instance.tokenManager().getAccessTokenString());
+		return token;
 	}
 
 }

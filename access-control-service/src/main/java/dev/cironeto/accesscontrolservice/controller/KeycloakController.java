@@ -1,5 +1,6 @@
 package dev.cironeto.accesscontrolservice.controller;
 
+import dev.cironeto.accesscontrolservice.dto.AccessTokenResponseBody;
 import dev.cironeto.accesscontrolservice.dto.UserPostRequestBody;
 import dev.cironeto.accesscontrolservice.service.KeycloakService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class KeycloakController {
 	}
 
 	@PostMapping(value = "/token")
-	public ResponseEntity<String> getAccessToken(String username, String password){
+	public ResponseEntity<AccessTokenResponseBody> getAccessToken(String username, String password){
 		return ResponseEntity.ok(keycloakService.getAccessToken(username, password));
 	}
 

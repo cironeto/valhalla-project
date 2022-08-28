@@ -35,6 +35,11 @@ public class GatewayApplication {
                                 .path("/gateway/business-function/**")
                                 .filters(f -> f.rewritePath("/gateway/business-function/(?<RID>.*)", "/business-function/${RID}"))
                                 .uri("http://localhost:8090"))
+                .route("permission_route",
+                        route -> route
+                                .path("/gateway/permission/**")
+                                .filters(f -> f.rewritePath("/gateway/permission/(?<RID>.*)", "/permission/${RID}"))
+                                .uri("http://localhost:8090"))
                 .build();
     }
 
