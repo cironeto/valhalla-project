@@ -12,6 +12,6 @@ public interface BusinessFunctionRepository extends JpaRepository<BusinessFuncti
             "SELECT * FROM business_function " +
             "WHERE application_name = :applicationName " +
             "AND function_name = :functionName")
-    public BusinessFunction checkIfBusinessFunctionExists(String applicationName, String functionName);
+    public BusinessFunction findByNameAndFunction(String applicationName, String functionName);
 
 }

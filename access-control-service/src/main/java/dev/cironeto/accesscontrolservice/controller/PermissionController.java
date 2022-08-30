@@ -18,6 +18,6 @@ public class PermissionController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<String> createPermission(@RequestBody PermissionPostRequestBody dto){
-        return ResponseEntity.ok(permissionService.save(dto));
+        return ResponseEntity.ok(permissionService.create(dto));
     }
 }

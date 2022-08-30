@@ -1,6 +1,5 @@
 package dev.cironeto.accesscontrolservice.dto;
 
-import dev.cironeto.accesscontrolservice.model.BusinessFunction;
 import dev.cironeto.accesscontrolservice.model.Permission;
 import lombok.*;
 

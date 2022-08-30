@@ -13,9 +13,9 @@ public class BusinessFunctionService {
 
     private final BusinessFunctionRepository businessFunctionRepository;
 
-    public String save(BusinessFunctionPostRequestBody dto) {
+    public String create(BusinessFunctionPostRequestBody dto) {
         BusinessFunction businessFunction = businessFunctionRepository
-                .checkIfBusinessFunctionExists(dto.getApplicationName(), dto.getFunctionName());
+                .findByNameAndFunction(dto.getApplicationName(), dto.getFunctionName());
         if (businessFunction != null){
             throw new BadRequestException(String.format("Business Function already exists. ID: %d",  businessFunction.getId()));
         }else {

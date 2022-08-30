@@ -18,6 +18,6 @@ public class BusinessFunctionController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<String> createBusinessFunction(@RequestBody BusinessFunctionPostRequestBody dto){
-        return ResponseEntity.ok(businessFunctionService.save(dto));
+        return ResponseEntity.ok(businessFunctionService.create(dto));
     }
 }

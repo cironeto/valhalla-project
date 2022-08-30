@@ -13,7 +13,7 @@ public class PermissionService {
 
     private final PermissionRepository permissionRepository;
 
-    public String save(PermissionPostRequestBody dto) {
+    public String create(PermissionPostRequestBody dto) {
         Permission permission = permissionRepository.findByName(dto.getName());
         if (permission != null){
             throw new BadRequestException(String.format("Permission already exists. ID: %d",  permission.getId()));
