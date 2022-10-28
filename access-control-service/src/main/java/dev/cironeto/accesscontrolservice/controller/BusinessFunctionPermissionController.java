@@ -1,6 +1,7 @@
 package dev.cironeto.accesscontrolservice.controller;
 
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionResponseBody;
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
 import dev.cironeto.accesscontrolservice.model.BusinessFunctionPermission;
 import dev.cironeto.accesscontrolservice.service.BusinessFunctionPermissionService;
@@ -20,7 +21,7 @@ public class BusinessFunctionPermissionController {
     private final BusinessFunctionPermissionService businessFunctionPermissionService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createBusinessFunctionPermission(@RequestBody BusinessFunctionPermissionRequestBody dto){
+    public ResponseEntity<BusinessFunctionPermissionResponseBody> createBusinessFunctionPermission(@RequestBody BusinessFunctionPermissionRequestBody dto){
         return ResponseEntity.ok(businessFunctionPermissionService.create(dto));
     }
 }

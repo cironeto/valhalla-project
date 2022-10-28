@@ -1,6 +1,7 @@
 package dev.cironeto.accesscontrolservice.service;
 
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionResponseBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.model.BusinessFunction;
 import dev.cironeto.accesscontrolservice.repository.BusinessFunctionRepository;
@@ -13,7 +14,7 @@ public class BusinessFunctionService {
 
     private final BusinessFunctionRepository businessFunctionRepository;
 
-    public String create(BusinessFunctionPostRequestBody dto) {
+    public BusinessFunctionResponseBody create(BusinessFunctionPostRequestBody dto) {
         BusinessFunction businessFunction = businessFunctionRepository
                 .findByNameAndFunction(dto.getApplicationName(), dto.getFunctionName());
         if (businessFunction != null){
@@ -24,7 +25,7 @@ public class BusinessFunctionService {
             entity.setFunctionName(dto.getFunctionName());
 
             BusinessFunction savedEntity = businessFunctionRepository.save(entity);
-            return String.format("Business Function created. ID: %d",  savedEntity.getId());
+            return new BusinessFunctionResponseBody(savedEntity.getId());
         }
     }
 }

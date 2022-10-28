@@ -1,6 +1,7 @@
 package dev.cironeto.accesscontrolservice.service;
 
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionResponseBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.exception.NotFoundException;
 import dev.cironeto.accesscontrolservice.model.BusinessFunction;
@@ -20,7 +21,7 @@ public class BusinessFunctionPermissionService {
     private final BusinessFunctionRepository businessFunctionRepository;
     private final PermissionRepository permissionRepository;
 
-    public String create(BusinessFunctionPermissionRequestBody dto) {
+    public BusinessFunctionPermissionResponseBody create(BusinessFunctionPermissionRequestBody dto) {
         if(!isBusinessFunctionExists(dto.getApplicationName(), dto.getFunctionName())
          || !isPermissionExists(dto.getPermission())) {
             throw new NotFoundException("Business Function and/or Permission does not exist");
@@ -42,7 +43,7 @@ public class BusinessFunctionPermissionService {
 
             BusinessFunctionPermission savedEntity = repository.save(entityToBeSaved);
 
-            return String.format("Business Function/Permission created. ID: %d",  savedEntity.getId());
+            return new BusinessFunctionPermissionResponseBody(savedEntity.getId());
         }
     }
 

@@ -1,6 +1,7 @@
 package dev.cironeto.accesscontrolservice.controller;
 
 import dev.cironeto.accesscontrolservice.dto.PermissionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.PermissionResponseBody;
 import dev.cironeto.accesscontrolservice.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class PermissionController {
     private final PermissionService permissionService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createPermission(@RequestBody PermissionPostRequestBody dto){
+    public ResponseEntity<PermissionResponseBody> createPermission(@RequestBody PermissionPostRequestBody dto){
         return ResponseEntity.ok(permissionService.create(dto));
     }
 }
