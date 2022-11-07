@@ -11,4 +11,8 @@ public class BusinessFunctionPermissionFactory {
         dto.setApplicationName("App-test");
         return dto;
     }
+
+    public static BusinessFunctionPermissionRequestBody createEmptyPostBusinessFunctionPermissionObject(){
+        return new BusinessFunctionPermissionRequestBody();
+    }
 }

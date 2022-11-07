@@ -6,12 +6,9 @@ import lombok.*;
 @Setter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class BusinessFunctionResponseBody {
 
     private Long businessFunctionCreatedId;
-
-    public BusinessFunctionResponseBody(Long id){
-        this.businessFunctionCreatedId = id;
-    }
 }

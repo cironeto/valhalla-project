@@ -6,12 +6,9 @@ import lombok.*;
 @Setter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class BusinessFunctionPermissionResponseBody {
 
     private Long businessFunctionPermissionCreatedId;
-
-    public BusinessFunctionPermissionResponseBody(Long id){
-        this.businessFunctionPermissionCreatedId = id;
-    }
 }

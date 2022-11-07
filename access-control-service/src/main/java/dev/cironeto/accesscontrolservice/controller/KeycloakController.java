@@ -4,7 +4,6 @@ import dev.cironeto.accesscontrolservice.dto.AccessTokenResponseBody;
 import dev.cironeto.accesscontrolservice.dto.UserPostRequestBody;
 import dev.cironeto.accesscontrolservice.service.KeycloakService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
