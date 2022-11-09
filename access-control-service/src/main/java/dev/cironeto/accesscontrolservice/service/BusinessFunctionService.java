@@ -5,6 +5,7 @@ import dev.cironeto.accesscontrolservice.dto.BusinessFunctionResponseBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.model.BusinessFunction;
 import dev.cironeto.accesscontrolservice.repository.BusinessFunctionRepository;
+import dev.cironeto.accesscontrolservice.validation.BeanValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class BusinessFunctionService {
     private final BusinessFunctionRepository businessFunctionRepository;
 
     public BusinessFunctionResponseBody create(BusinessFunctionPostRequestBody dto) {
+        BeanValidator.validate(dto);
+
         BusinessFunction businessFunction = businessFunctionRepository
                 .findByNameAndFunction(dto.getApplicationName(), dto.getFunctionName());
         if (businessFunction != null){

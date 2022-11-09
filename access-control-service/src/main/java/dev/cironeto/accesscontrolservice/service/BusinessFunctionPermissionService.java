@@ -10,6 +10,7 @@ import dev.cironeto.accesscontrolservice.model.Permission;
 import dev.cironeto.accesscontrolservice.repository.BusinessFunctionPermissionRepository;
 import dev.cironeto.accesscontrolservice.repository.BusinessFunctionRepository;
 import dev.cironeto.accesscontrolservice.repository.PermissionRepository;
+import dev.cironeto.accesscontrolservice.validation.BeanValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ public class BusinessFunctionPermissionService {
     private final PermissionRepository permissionRepository;
 
     public BusinessFunctionPermissionResponseBody create(BusinessFunctionPermissionRequestBody dto) {
+        BeanValidator.validate(dto);
+
         if(!isBusinessFunctionExists(dto.getApplicationName(), dto.getFunctionName())
          || !isPermissionExists(dto.getPermission())) {
             throw new NotFoundException("Business Function and/or Permission does not exist");

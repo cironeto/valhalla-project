@@ -3,6 +3,7 @@ package dev.cironeto.accesscontrolservice.service;
 import dev.cironeto.accesscontrolservice.dto.AccessTokenResponseBody;
 import dev.cironeto.accesscontrolservice.dto.UserPostRequestBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
+import dev.cironeto.accesscontrolservice.validation.BeanValidator;
 import lombok.RequiredArgsConstructor;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
@@ -35,6 +36,8 @@ public class KeycloakService {
 	private final AppUserService appUserService;
 
 	public UUID createUserInKeycloak(UserPostRequestBody userDto) {
+		BeanValidator.validate(userDto);
+
 		UserRepresentation user = buildKeycloakUserToBeCreated(userDto);
 		RealmResource keycloakRealmResource = getKeycloak();
 		UsersResource usersResource = keycloakRealmResource.users();
