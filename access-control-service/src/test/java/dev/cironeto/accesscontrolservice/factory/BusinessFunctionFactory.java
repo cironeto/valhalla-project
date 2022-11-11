@@ -1,9 +1,7 @@
 package dev.cironeto.accesscontrolservice.factory;
 
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
-import dev.cironeto.accesscontrolservice.dto.PermissionPostRequestBody;
 import dev.cironeto.accesscontrolservice.model.BusinessFunction;
-import dev.cironeto.accesscontrolservice.model.Permission;
 
 public class BusinessFunctionFactory {
 

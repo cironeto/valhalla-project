@@ -1,7 +1,7 @@
 package dev.cironeto.accesscontrolservice.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.cironeto.accesscontrolservice.dto.PermissionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.PermissionRequestBody;
 import dev.cironeto.accesscontrolservice.factory.PermissionFactory;
 import dev.cironeto.accesscontrolservice.repository.PermissionRepository;
 import dev.cironeto.accesscontrolservice.util.TokenUtil;
@@ -54,7 +54,7 @@ class PermissionControllerIT {
     void createPermission_shouldReturnTheCreatedID_WhenSuccessful() throws Exception {
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
 
-        PermissionPostRequestBody dto = PermissionFactory.createValidPostPermission();
+        PermissionRequestBody dto = PermissionFactory.createValidPostPermission();
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
@@ -75,7 +75,7 @@ class PermissionControllerIT {
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
 
         permissionRepository.save(PermissionFactory.createPermissionToBeSaved());
-        PermissionPostRequestBody dto = PermissionFactory.createNotValidPostPermission();
+        PermissionRequestBody dto = PermissionFactory.createNotValidPostPermission();
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 

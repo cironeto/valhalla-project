@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/configuration/ui",
                         "/swagger-ui.html",
                         "/swagger-resources/configuration/security").permitAll()
-                .antMatchers( HttpMethod.POST, "/keycloak/create-user").permitAll()
+                .antMatchers( HttpMethod.POST, "/user/create").permitAll()
                 .antMatchers( HttpMethod.POST, "/keycloak/token").permitAll();
 
         http.authorizeRequests()

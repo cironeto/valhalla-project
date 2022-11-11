@@ -1,14 +1,13 @@
 package dev.cironeto.accesscontrolservice.controller;
 
-import dev.cironeto.accesscontrolservice.dto.PermissionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.PermissionRequestBody;
 import dev.cironeto.accesscontrolservice.dto.PermissionResponseBody;
 import dev.cironeto.accesscontrolservice.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,7 +17,28 @@ public class PermissionController {
     private final PermissionService permissionService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<PermissionResponseBody> createPermission(@RequestBody PermissionPostRequestBody dto){
+    public ResponseEntity<PermissionResponseBody> createPermission(@RequestBody PermissionRequestBody dto){
         return ResponseEntity.ok(permissionService.create(dto));
+    }
+
+    @GetMapping(value = "/find/all")
+    public ResponseEntity<List<PermissionRequestBody>> findAll(){
+        return ResponseEntity.ok(permissionService.findAll());
+    }
+
+    @GetMapping(value = "/find/{id}")
+    public ResponseEntity<PermissionRequestBody> findById(@PathVariable Long id){
+        return ResponseEntity.ok(permissionService.findById(id));
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<PermissionRequestBody> update(@PathVariable Long id, @RequestBody PermissionRequestBody dto){
+        return ResponseEntity.ok(permissionService.update(id, dto));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        permissionService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

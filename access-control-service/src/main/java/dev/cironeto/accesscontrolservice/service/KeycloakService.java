@@ -1,7 +1,7 @@
 package dev.cironeto.accesscontrolservice.service;
 
 import dev.cironeto.accesscontrolservice.dto.AccessTokenResponseBody;
-import dev.cironeto.accesscontrolservice.dto.UserPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.AppUserPostRequestBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.validation.BeanValidator;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class KeycloakService {
 
 	private final AppUserService appUserService;
 
-	public UUID createUserInKeycloak(UserPostRequestBody userDto) {
+	public UUID createUserInKeycloak(AppUserPostRequestBody userDto) {
 		BeanValidator.validate(userDto);
 
 		UserRepresentation user = buildKeycloakUserToBeCreated(userDto);
@@ -46,14 +46,14 @@ public class KeycloakService {
 		try {
 			Response response = usersResource.create(user);
 			createdId = UUID.fromString(CreatedResponseUtil.getCreatedId(response));
-			appUserService.saveUser(createdId, userDto);
+			appUserService.save(createdId, userDto);
 		}catch (RuntimeException e){
 			throw new BadRequestException("E-mail already exists");
 		}
 		return createdId;
 	}
 
-	private UserRepresentation buildKeycloakUserToBeCreated(UserPostRequestBody userDto) {
+	private UserRepresentation buildKeycloakUserToBeCreated(AppUserPostRequestBody userDto) {
 		UserRepresentation user = new UserRepresentation();
 		user.setEmail(userDto.getEmail());
 		user.setLastName(userDto.getLastName());

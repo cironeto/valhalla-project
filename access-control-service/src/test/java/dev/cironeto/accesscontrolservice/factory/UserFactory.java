@@ -1,14 +1,14 @@
 package dev.cironeto.accesscontrolservice.factory;
 
-import dev.cironeto.accesscontrolservice.dto.UserPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.AppUserPostRequestBody;
 import dev.cironeto.accesscontrolservice.model.AppUser;
 
 import java.util.UUID;
 
 public class UserFactory {
 
-    public static UserPostRequestBody createValidPostUser(){
-        UserPostRequestBody dto = new UserPostRequestBody();
+    public static AppUserPostRequestBody createValidPostUser(){
+        AppUserPostRequestBody dto = new AppUserPostRequestBody();
         dto.setFirstName("Ciro teste");
         dto.setLastName("Neto teste");
         dto.setEmail("xx123@gmail.com");
@@ -16,8 +16,8 @@ public class UserFactory {
         return dto;
     }
 
-    public static UserPostRequestBody createValidPostUser2(){
-        UserPostRequestBody dto = new UserPostRequestBody();
+    public static AppUserPostRequestBody createValidPostUser2(){
+        AppUserPostRequestBody dto = new AppUserPostRequestBody();
         dto.setFirstName("Ciro");
         dto.setLastName("Neto");
         dto.setEmail("netociro12345.teste32@gmail.com");

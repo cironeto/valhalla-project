@@ -1,12 +1,12 @@
 package dev.cironeto.accesscontrolservice.factory;
 
-import dev.cironeto.accesscontrolservice.dto.PermissionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.PermissionRequestBody;
 import dev.cironeto.accesscontrolservice.model.Permission;
 
 public class PermissionFactory {
 
-    public static PermissionPostRequestBody createValidPostPermission(){
-        PermissionPostRequestBody dto = new PermissionPostRequestBody();
+    public static PermissionRequestBody createValidPostPermission(){
+        PermissionRequestBody dto = new PermissionRequestBody();
         dto.setName("view-test");
         return dto;
     }
@@ -17,8 +17,8 @@ public class PermissionFactory {
         return permission;
     }
 
-    public static PermissionPostRequestBody createNotValidPostPermission(){
-        PermissionPostRequestBody dto = new PermissionPostRequestBody();
+    public static PermissionRequestBody createNotValidPostPermission(){
+        PermissionRequestBody dto = new PermissionRequestBody();
         dto.setName("Permission-Test");
         return dto;
     }

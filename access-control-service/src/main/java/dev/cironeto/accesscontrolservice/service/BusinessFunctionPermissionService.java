@@ -2,6 +2,8 @@ package dev.cironeto.accesscontrolservice.service;
 
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionRequestBody;
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionResponseBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionResponseBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.exception.NotFoundException;
 import dev.cironeto.accesscontrolservice.model.BusinessFunction;
@@ -13,6 +15,10 @@ import dev.cironeto.accesscontrolservice.repository.PermissionRepository;
 import dev.cironeto.accesscontrolservice.validation.BeanValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +52,7 @@ public class BusinessFunctionPermissionService {
 
             BusinessFunctionPermission savedEntity = repository.save(entityToBeSaved);
 
-            return new BusinessFunctionPermissionResponseBody(savedEntity.getId());
+            return new BusinessFunctionPermissionResponseBody(savedEntity);
         }
     }
 
@@ -64,5 +70,42 @@ public class BusinessFunctionPermissionService {
             return true;
         }
         return false;
+    }
+
+    public List<BusinessFunctionPermissionResponseBody> findAll(){
+        List<BusinessFunctionPermission> list = repository.findAll();
+        return list.stream().map(p -> new BusinessFunctionPermissionResponseBody(p)).collect(Collectors.toList());
+    }
+
+    public BusinessFunctionPermissionResponseBody findById(Long id){
+        Optional<BusinessFunctionPermission> optional = repository.findById(id);
+        BusinessFunctionPermission entity = optional.orElseThrow(() -> new BadRequestException("ID not found"));
+        return new BusinessFunctionPermissionResponseBody(entity);
+    }
+
+    public BusinessFunctionPermissionResponseBody update(Long id, BusinessFunctionPermissionRequestBody dto){
+        try {
+            BusinessFunctionPermission entity = repository.getById(id);
+            BusinessFunction businessFunction =
+                    businessFunctionRepository.findByNameAndFunction(dto.getApplicationName(), dto.getFunctionName());
+            Permission permission =
+                    permissionRepository.findByName(dto.getPermission());
+
+            entity.setPermission(permission);
+            entity.setBusinessFunction(businessFunction);
+
+            BusinessFunctionPermission savedEntity = repository.save(entity);
+            return new BusinessFunctionPermissionResponseBody(savedEntity);
+        } catch (Exception e){
+            throw new BadRequestException("ID not found");
+        }
+    }
+
+    public void delete(Long id){
+        try {
+            repository.deleteById(id);
+        } catch (Exception e){
+            throw new BadRequestException("ID not found");
+        }
     }
 }

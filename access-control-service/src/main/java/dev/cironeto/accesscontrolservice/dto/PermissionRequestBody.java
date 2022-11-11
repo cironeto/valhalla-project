@@ -11,12 +11,12 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class PermissionPostRequestBody {
+public class PermissionRequestBody {
 
     @NotBlank
     private String name;
 
-    public PermissionPostRequestBody(Permission entity){
+    public PermissionRequestBody(Permission entity){
         this.name = entity.getName();
     }
 }

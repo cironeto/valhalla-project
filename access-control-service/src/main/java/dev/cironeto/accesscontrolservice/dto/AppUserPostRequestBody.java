@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserPostRequestBody {
+public class AppUserPostRequestBody {
 
     @NotBlank
     @Email
@@ -25,10 +25,10 @@ public class UserPostRequestBody {
     private String lastName;
     
     
-    public UserPostRequestBody(AppUser appUser) {
-    	this.email = appUser.getEmail();
-    	this.password = appUser.getPassword();
-    	this.firstName = appUser.getFirstName();
-    	this.lastName = appUser.getLastName();
+    public AppUserPostRequestBody(AppUser entity) {
+    	this.email = entity.getEmail();
+    	this.password = entity.getPassword();
+    	this.firstName = entity.getFirstName();
+    	this.lastName = entity.getLastName();
     }
 }
