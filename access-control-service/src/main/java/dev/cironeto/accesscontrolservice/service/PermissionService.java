@@ -1,11 +1,8 @@
 package dev.cironeto.accesscontrolservice.service;
 
-import dev.cironeto.accesscontrolservice.dto.AppUserPostRequestBody;
-import dev.cironeto.accesscontrolservice.dto.AppUserRequestBody;
 import dev.cironeto.accesscontrolservice.dto.PermissionRequestBody;
 import dev.cironeto.accesscontrolservice.dto.PermissionResponseBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
-import dev.cironeto.accesscontrolservice.model.AppUser;
 import dev.cironeto.accesscontrolservice.model.Permission;
 import dev.cironeto.accesscontrolservice.repository.PermissionRepository;
 import dev.cironeto.accesscontrolservice.validation.BeanValidator;
@@ -37,23 +34,23 @@ public class PermissionService {
         }
     }
 
-    public List<PermissionRequestBody> findAll(){
+    public List<PermissionResponseBody> findAll(){
         List<Permission> permissions = permissionRepository.findAll();
-        return permissions.stream().map(p -> new PermissionRequestBody(p)).collect(Collectors.toList());
+        return permissions.stream().map(p -> new PermissionResponseBody(p)).collect(Collectors.toList());
     }
 
-    public PermissionRequestBody findById(Long id){
+    public PermissionResponseBody findById(Long id){
         Optional<Permission> permissionOptional = permissionRepository.findById(id);
         Permission permission = permissionOptional.orElseThrow(() -> new BadRequestException("ID not found"));
-        return new PermissionRequestBody(permission);
+        return new PermissionResponseBody(permission);
     }
 
-    public PermissionRequestBody update(Long id, PermissionRequestBody dto){
+    public PermissionResponseBody update(Long id, PermissionRequestBody dto){
         try {
             Permission permission = permissionRepository.getById(id);
             permission.setName(dto.getName());
             Permission permissionSaved = permissionRepository.save(permission);
-            return new PermissionRequestBody(permissionSaved);
+            return new PermissionResponseBody(permissionSaved);
         } catch (Exception e){
             throw new BadRequestException("ID not found");
         }

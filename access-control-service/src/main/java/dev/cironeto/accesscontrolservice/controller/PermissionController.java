@@ -22,17 +22,17 @@ public class PermissionController {
     }
 
     @GetMapping(value = "/find/all")
-    public ResponseEntity<List<PermissionRequestBody>> findAll(){
+    public ResponseEntity<List<PermissionResponseBody>> findAll(){
         return ResponseEntity.ok(permissionService.findAll());
     }
 
     @GetMapping(value = "/find/{id}")
-    public ResponseEntity<PermissionRequestBody> findById(@PathVariable Long id){
+    public ResponseEntity<PermissionResponseBody> findById(@PathVariable Long id){
         return ResponseEntity.ok(permissionService.findById(id));
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<PermissionRequestBody> update(@PathVariable Long id, @RequestBody PermissionRequestBody dto){
+    public ResponseEntity<PermissionResponseBody> update(@PathVariable Long id, @RequestBody PermissionRequestBody dto){
         return ResponseEntity.ok(permissionService.update(id, dto));
     }
 
