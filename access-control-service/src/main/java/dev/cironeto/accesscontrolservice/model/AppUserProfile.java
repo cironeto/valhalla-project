@@ -12,15 +12,15 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BusinessFunctionPermission {
+public class AppUserProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private BusinessFunction businessFunction;
+    private AppUser appUser;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Permission permission;
+    private Profile profile;
 }

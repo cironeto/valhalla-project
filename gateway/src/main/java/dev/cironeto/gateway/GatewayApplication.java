@@ -55,6 +55,11 @@ public class GatewayApplication {
                                 .path("/gateway/profile/**")
                                 .filters(f -> f.rewritePath("/gateway/profile/(?<RID>.*)", "/profile/${RID}"))
                                 .uri("http://localhost:8090"))
+                .route("user-profile_route",
+                        route -> route
+                                .path("/gateway/user-profile/**")
+                                .filters(f -> f.rewritePath("/gateway/user-profile/(?<RID>.*)", "/user-profile/${RID}"))
+                                .uri("http://localhost:8090"))
                 .build();
     }
 
