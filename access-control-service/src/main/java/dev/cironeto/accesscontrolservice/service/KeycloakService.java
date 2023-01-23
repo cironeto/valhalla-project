@@ -14,11 +14,16 @@ import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.keycloak.util.JsonSerialization;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.core.Response;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -47,7 +52,7 @@ public class KeycloakService {
 			Response response = usersResource.create(user);
 			createdId = UUID.fromString(CreatedResponseUtil.getCreatedId(response));
 			appUserService.save(createdId, userDto);
-		}catch (RuntimeException e){
+		}catch (Exception e){
 			throw new BadRequestException("E-mail already exists");
 		}
 		return createdId;
@@ -55,11 +60,11 @@ public class KeycloakService {
 
 	private UserRepresentation buildKeycloakUserToBeCreated(AppUserPostRequestBody userDto) {
 		UserRepresentation user = new UserRepresentation();
+		user.setUsername(userDto.getEmail());
 		user.setEmail(userDto.getEmail());
 		user.setLastName(userDto.getLastName());
 		user.setFirstName(userDto.getFirstName());
 		user.setEnabled(true);
-		user.setRealmRoles(List.of("USER"));
 
 		CredentialRepresentation passwordCredential = new CredentialRepresentation();
 		passwordCredential.setTemporary(false);
@@ -71,19 +76,17 @@ public class KeycloakService {
 	}
 
 	private RealmResource getKeycloak() {
-		return KeycloakBuilder.builder()
+		Keycloak keycloak = KeycloakBuilder.builder()
 				.serverUrl(SERVER_URL)
 				.realm(REALM)
 				.grantType(OAuth2Constants.CLIENT_CREDENTIALS)
 				.clientId(CLIENT_ID)
-				.clientSecret(SECRET_KEY)
-				.realm(REALM)
-				.resteasyClient(new ResteasyClientBuilder().connectionPoolSize(10).build())
-				.build().realm(REALM);
+				.clientSecret(SECRET_KEY).build();
+		RealmResource realmResource = keycloak.realm(REALM);
+		return realmResource;
 	}
 
-	public AccessTokenResponseBody getAccessToken(String username, String password){
-		AccessTokenResponseBody token = new AccessTokenResponseBody();
+	public AccessTokenResponseBody getAccessToken(String username, String password) {
 		Keycloak instance = Keycloak.getInstance(
 				SERVER_URL,
 				REALM,
@@ -91,7 +94,9 @@ public class KeycloakService {
 				password,
 				CLIENT_ID,
 				SECRET_KEY);
-		token.setAccessToken(instance.tokenManager().getAccessTokenString());
+		AccessTokenResponseBody token = new AccessTokenResponseBody();
+		String accessTokenString = instance.tokenManager().getAccessTokenString();
+		token.setAccessToken(accessTokenString);
 		return token;
 	}
 

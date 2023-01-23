@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,45 +28,24 @@ public class BusinessFunctionPermissionService {
     public BusinessFunctionPermissionResponseBody create(BusinessFunctionPermissionRequestBody dto) {
         BeanValidator.validate(dto);
 
-        if(!isBusinessFunctionExists(dto.getApplicationName(), dto.getFunctionName())
-         || !isPermissionExists(dto.getPermission())) {
-            throw new NotFoundException("Business Function and/or Permission does not exist");
-        }
+        BusinessFunction businessFunction = businessFunctionRepository
+                .findById(dto.getBusinessFunctionId()).orElseThrow(() -> new NotFoundException("Business Function does not exist"));
 
-        BusinessFunction businessFunction =
-                businessFunctionRepository.findByNameAndFunction(dto.getApplicationName(), dto.getFunctionName());
-        Permission permission =
-                permissionRepository.findByName(dto.getPermission());
+        Permission permission = permissionRepository
+                .findById(dto.getPermissionId()).orElseThrow(() -> new NotFoundException("Permission does not exist"));
 
         BusinessFunctionPermission entity = repository.checkIfExists(businessFunction.getId(), permission.getId());
         if (entity != null){
             throw new BadRequestException(String.format("Business Function/Permission relationship already exists. ID: %d",  entity.getId()));
-
-        }else {
-            BusinessFunctionPermission entityToBeSaved = new BusinessFunctionPermission();
-            entityToBeSaved.setBusinessFunction(businessFunction);
-            entityToBeSaved.setPermission(permission);
-
-            BusinessFunctionPermission savedEntity = repository.save(entityToBeSaved);
-
-            return new BusinessFunctionPermissionResponseBody(savedEntity);
         }
-    }
 
-    private boolean isBusinessFunctionExists(String applicationName, String functionName) {
-        BusinessFunction entity = businessFunctionRepository.findByNameAndFunction(applicationName, functionName);
-        if (entity != null){
-            return true;
-        }
-        return false;
-    }
+        BusinessFunctionPermission newEntity = new BusinessFunctionPermission();
+        newEntity.setBusinessFunction(businessFunction);
+        newEntity.setPermission(permission);
 
-    private boolean isPermissionExists(String name) {
-        Permission entity = permissionRepository.findByName(name);
-        if (entity != null){
-            return true;
-        }
-        return false;
+        BusinessFunctionPermission savedEntity = repository.save(newEntity);
+
+        return new BusinessFunctionPermissionResponseBody(savedEntity);
     }
 
     public List<BusinessFunctionPermissionResponseBody> findAll(){
@@ -76,18 +54,17 @@ public class BusinessFunctionPermissionService {
     }
 
     public BusinessFunctionPermissionResponseBody findById(Long id){
-        Optional<BusinessFunctionPermission> optional = repository.findById(id);
-        BusinessFunctionPermission entity = optional.orElseThrow(() -> new BadRequestException("ID not found"));
+        BusinessFunctionPermission entity = repository.findById(id).orElseThrow(() -> new BadRequestException("ID not found"));
         return new BusinessFunctionPermissionResponseBody(entity);
     }
 
     public BusinessFunctionPermissionResponseBody update(Long id, BusinessFunctionPermissionRequestBody dto){
         try {
             BusinessFunctionPermission entity = repository.getById(id);
-            BusinessFunction businessFunction =
-                    businessFunctionRepository.findByNameAndFunction(dto.getApplicationName(), dto.getFunctionName());
-            Permission permission =
-                    permissionRepository.findByName(dto.getPermission());
+            BusinessFunction businessFunction = businessFunctionRepository
+                    .findById(dto.getBusinessFunctionId()).orElseThrow(() -> new NotFoundException("Business Function does not exist"));
+            Permission permission = permissionRepository
+                    .findById(dto.getPermissionId()).orElseThrow(() -> new NotFoundException("Permission does not exist"));
 
             entity.setPermission(permission);
             entity.setBusinessFunction(businessFunction);

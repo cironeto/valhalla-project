@@ -1,8 +1,7 @@
 package dev.cironeto.accesscontrolservice.controller;
 
-import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionRequestBody;
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionResponseBody;
-import dev.cironeto.accesscontrolservice.dto.PermissionRequestBody;
 import dev.cironeto.accesscontrolservice.service.BusinessFunctionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ public class BusinessFunctionController {
     private final BusinessFunctionService businessFunctionService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<BusinessFunctionResponseBody> createBusinessFunction(@RequestBody BusinessFunctionPostRequestBody dto){
+    public ResponseEntity<BusinessFunctionResponseBody> createBusinessFunction(@RequestBody BusinessFunctionRequestBody dto){
         return ResponseEntity.ok(businessFunctionService.create(dto));
     }
 
@@ -33,7 +32,7 @@ public class BusinessFunctionController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<BusinessFunctionResponseBody> update(@PathVariable Long id, @RequestBody BusinessFunctionPostRequestBody dto){
+    public ResponseEntity<BusinessFunctionResponseBody> update(@PathVariable Long id, @RequestBody BusinessFunctionRequestBody dto){
         return ResponseEntity.ok(businessFunctionService.update(id, dto));
     }
 

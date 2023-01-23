@@ -45,9 +45,10 @@ keycloak:
   resource: admin-cli
   bearer-only: true
   credentials:
-    secret: gv7zpYNOH51UUZZoBojyjMwsDtAk8LzT
+    secret: RV9FTp7l7sbWzck8GWvZ0XKJtt8m4F6H
   security-constraints:
     - auth-roles: user
     - security-collections:
         - name: user
         - patterns: /user/*
+  enabled: true

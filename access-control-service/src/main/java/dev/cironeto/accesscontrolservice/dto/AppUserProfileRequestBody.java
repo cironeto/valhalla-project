@@ -2,7 +2,8 @@ package dev.cironeto.accesscontrolservice.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,8 +13,8 @@ import javax.validation.constraints.NotEmpty;
 @ToString
 public class AppUserProfileRequestBody {
 
-    @NotEmpty
-    private String appUserEmail;
-    @NotEmpty
-    private String profileName;
+    @NotNull
+    private UUID appUserId;
+    @NotNull
+    private Long profileID;
 }

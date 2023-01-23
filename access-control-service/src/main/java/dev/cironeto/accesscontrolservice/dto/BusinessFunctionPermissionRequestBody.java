@@ -2,7 +2,7 @@ package dev.cironeto.accesscontrolservice.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -12,10 +12,8 @@ import javax.validation.constraints.NotEmpty;
 @ToString
 public class BusinessFunctionPermissionRequestBody {
 
-    @NotEmpty
-    private String applicationName;
-    @NotEmpty
-    private String functionName;
-    @NotEmpty
-    private String permission;
+    @NotNull
+    private Long businessFunctionId;
+    @NotNull
+    private Long permissionId;
 }

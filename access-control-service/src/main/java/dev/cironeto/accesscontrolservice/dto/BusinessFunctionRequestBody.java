@@ -11,14 +11,14 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BusinessFunctionPostRequestBody {
+public class BusinessFunctionRequestBody {
 
     @NotBlank
     private String applicationName;
     @NotBlank
     private String functionName;
 
-    public BusinessFunctionPostRequestBody(BusinessFunction entity){
+    public BusinessFunctionRequestBody(BusinessFunction entity){
         this.applicationName = entity.getApplicationName();
         this.functionName = entity.getFunctionName();
     }

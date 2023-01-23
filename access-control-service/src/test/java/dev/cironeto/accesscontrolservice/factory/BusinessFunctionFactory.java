@@ -1,12 +1,12 @@
 package dev.cironeto.accesscontrolservice.factory;
 
-import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionRequestBody;
 import dev.cironeto.accesscontrolservice.model.BusinessFunction;
 
 public class BusinessFunctionFactory {
 
-    public static BusinessFunctionPostRequestBody createValidPostBusinessFunction(){
-        BusinessFunctionPostRequestBody dto = new BusinessFunctionPostRequestBody();
+    public static BusinessFunctionRequestBody createValidPostBusinessFunction(){
+        BusinessFunctionRequestBody dto = new BusinessFunctionRequestBody();
         dto.setFunctionName("manager-test");
         dto.setApplicationName("App 1 - test");
         return dto;
@@ -19,8 +19,8 @@ public class BusinessFunctionFactory {
         return businessFunction;
     }
 
-    public static BusinessFunctionPostRequestBody createNotValidPostBusinessFunction(){
-        BusinessFunctionPostRequestBody dto = new BusinessFunctionPostRequestBody();
+    public static BusinessFunctionRequestBody createNotValidPostBusinessFunction(){
+        BusinessFunctionRequestBody dto = new BusinessFunctionRequestBody();
         dto.setFunctionName("manager-test");
         dto.setApplicationName("App 1 - test");
         return dto;

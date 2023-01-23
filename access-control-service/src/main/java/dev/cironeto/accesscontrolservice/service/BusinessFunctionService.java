@@ -1,6 +1,6 @@
 package dev.cironeto.accesscontrolservice.service;
 
-import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionRequestBody;
 import dev.cironeto.accesscontrolservice.dto.BusinessFunctionResponseBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.model.BusinessFunction;
@@ -19,7 +19,7 @@ public class BusinessFunctionService {
 
     private final BusinessFunctionRepository businessFunctionRepository;
 
-    public BusinessFunctionResponseBody create(BusinessFunctionPostRequestBody dto) {
+    public BusinessFunctionResponseBody create(BusinessFunctionRequestBody dto) {
         BeanValidator.validate(dto);
 
         BusinessFunction businessFunction = businessFunctionRepository
@@ -47,7 +47,7 @@ public class BusinessFunctionService {
         return new BusinessFunctionResponseBody(businessFunction);
     }
 
-    public BusinessFunctionResponseBody update(Long id, BusinessFunctionPostRequestBody dto){
+    public BusinessFunctionResponseBody update(Long id, BusinessFunctionRequestBody dto){
         try {
             BusinessFunction businessFunction = businessFunctionRepository.getById(id);
             businessFunction.setApplicationName(dto.getApplicationName());

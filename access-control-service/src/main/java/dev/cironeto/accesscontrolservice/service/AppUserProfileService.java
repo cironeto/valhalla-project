@@ -2,11 +2,11 @@ package dev.cironeto.accesscontrolservice.service;
 
 import dev.cironeto.accesscontrolservice.dto.AppUserProfileRequestBody;
 import dev.cironeto.accesscontrolservice.dto.AppUserProfileResponseBody;
-import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionRequestBody;
-import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPermissionResponseBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.exception.NotFoundException;
-import dev.cironeto.accesscontrolservice.model.*;
+import dev.cironeto.accesscontrolservice.model.AppUser;
+import dev.cironeto.accesscontrolservice.model.AppUserProfile;
+import dev.cironeto.accesscontrolservice.model.Profile;
 import dev.cironeto.accesscontrolservice.repository.AppUserProfileRepository;
 import dev.cironeto.accesscontrolservice.repository.AppUserRepository;
 import dev.cironeto.accesscontrolservice.repository.ProfileRepository;
@@ -29,44 +29,24 @@ public class AppUserProfileService {
     public AppUserProfileResponseBody create(AppUserProfileRequestBody dto) {
         BeanValidator.validate(dto);
 
-        if(!isAppUserExists(dto.getAppUserEmail())
-                || !isProfileExists(dto.getProfileName())) {
-            throw new NotFoundException("User and/or Profile does not exist");
-        }
-
-        AppUser appUser = appUserRepository.findByEmail(dto.getAppUserEmail());
-        Profile profile = profileRepository.findByName(dto.getProfileName());
+        AppUser appUser = appUserRepository
+                .findById(dto.getAppUserId()).orElseThrow(()-> new NotFoundException("User does not exist"));
+        Profile profile = profileRepository
+                .findById(dto.getProfileID()).orElseThrow(() -> new NotFoundException("Profile does not exist"));
 
         AppUserProfile entity = repository.checkIfExists(appUser.getId().toString(), profile.getId());
 
         if (entity != null){
             throw new BadRequestException(String.format("User/Profile relationship already exists. ID: %d",  entity.getId()));
-
-        }else {
-            AppUserProfile entityToBeSaved = new AppUserProfile();
-            entityToBeSaved.setAppUser(appUser);
-            entityToBeSaved.setProfile(profile);
-
-            AppUserProfile savedEntity = repository.save(entityToBeSaved);
-
-            return new AppUserProfileResponseBody(savedEntity);
         }
-    }
 
-    private boolean isAppUserExists(String email) {
-        AppUser entity = appUserRepository.findByEmail(email);
-        if (entity != null){
-            return true;
-        }
-        return false;
-    }
+        AppUserProfile newEntity = new AppUserProfile();
+        newEntity.setAppUser(appUser);
+        newEntity.setProfile(profile);
 
-    private boolean isProfileExists(String name) {
-        Profile entity = profileRepository.findByName(name);
-        if (entity != null){
-            return true;
-        }
-        return false;
+        AppUserProfile savedEntity = repository.save(newEntity);
+
+        return new AppUserProfileResponseBody(savedEntity);
     }
 
     public List<AppUserProfileResponseBody> findAll(){
@@ -75,22 +55,18 @@ public class AppUserProfileService {
     }
 
     public AppUserProfileResponseBody findById(Long id){
-        Optional<AppUserProfile> optional = repository.findById(id);
-        AppUserProfile entity = optional.orElseThrow(() -> new BadRequestException("ID not found"));
+        AppUserProfile entity = repository.findById(id).orElseThrow(() -> new BadRequestException("ID not found"));
         return new AppUserProfileResponseBody(entity);
     }
 
     public AppUserProfileResponseBody update(Long id, AppUserProfileRequestBody dto){
-        if(!isAppUserExists(dto.getAppUserEmail())
-            || !isProfileExists(dto.getProfileName())) {
-            throw new NotFoundException("User and/or Profile does not exist");
-        }
-
         try {
             AppUserProfile entity = repository.getById(id);
 
-            AppUser appUser = appUserRepository.findByEmail(dto.getAppUserEmail());
-            Profile profile = profileRepository.findByName(dto.getProfileName());
+            AppUser appUser = appUserRepository
+                    .findById(dto.getAppUserId()).orElseThrow(()-> new NotFoundException("User does not exist"));
+            Profile profile = profileRepository
+                    .findById(dto.getProfileID()).orElseThrow(() -> new NotFoundException("Profile does not exist"));
 
             entity.setAppUser(appUser);
             entity.setProfile(profile);

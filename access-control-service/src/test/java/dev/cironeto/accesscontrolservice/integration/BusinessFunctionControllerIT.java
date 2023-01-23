@@ -1,7 +1,7 @@
 package dev.cironeto.accesscontrolservice.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.cironeto.accesscontrolservice.dto.BusinessFunctionPostRequestBody;
+import dev.cironeto.accesscontrolservice.dto.BusinessFunctionRequestBody;
 import dev.cironeto.accesscontrolservice.factory.BusinessFunctionFactory;
 import dev.cironeto.accesscontrolservice.repository.BusinessFunctionRepository;
 import dev.cironeto.accesscontrolservice.util.TokenUtil;
@@ -53,7 +53,7 @@ public class BusinessFunctionControllerIT {
     void createBusinessFunction_shouldReturnTheCreatedID_WhenSuccessful() throws Exception {
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
 
-        BusinessFunctionPostRequestBody dto = BusinessFunctionFactory.createValidPostBusinessFunction();
+        BusinessFunctionRequestBody dto = BusinessFunctionFactory.createValidPostBusinessFunction();
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
@@ -75,7 +75,7 @@ public class BusinessFunctionControllerIT {
 
         businessFunctionRepository.save(BusinessFunctionFactory.createBusinessFunctionToBeSaved());
 
-        BusinessFunctionPostRequestBody dto = BusinessFunctionFactory.createNotValidPostBusinessFunction();
+        BusinessFunctionRequestBody dto = BusinessFunctionFactory.createNotValidPostBusinessFunction();
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
