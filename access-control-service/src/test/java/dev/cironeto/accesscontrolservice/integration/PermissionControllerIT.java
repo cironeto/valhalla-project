@@ -46,7 +46,7 @@ class PermissionControllerIT {
 
     @BeforeEach
     void setUp() {
-        username = "ciro.22@gmail.com";
+        username = "ciro.neto16@gmail.com";
         password = "123";
     }
 
@@ -67,7 +67,7 @@ class PermissionControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.permissionCreatedId").exists());
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
     }
 
     @Test

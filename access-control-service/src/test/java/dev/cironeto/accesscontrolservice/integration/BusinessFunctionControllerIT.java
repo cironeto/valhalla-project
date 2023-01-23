@@ -45,7 +45,7 @@ public class BusinessFunctionControllerIT {
 
     @BeforeEach
     void setUp() {
-        username = "ciro.22@gmail.com";
+        username = "ciro.neto16@gmail.com";
         password = "123";
     }
 
@@ -66,7 +66,7 @@ public class BusinessFunctionControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(MockMvcResultMatchers.status().isOk());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.businessFunctionCreatedId").exists());
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
     }
 
     @Test

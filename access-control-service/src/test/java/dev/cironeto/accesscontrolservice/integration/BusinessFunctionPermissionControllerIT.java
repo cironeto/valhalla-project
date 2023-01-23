@@ -58,7 +58,7 @@ public class BusinessFunctionPermissionControllerIT {
 
     @BeforeEach
     void setUp() {
-        username = "ciro.22@gmail.com";
+        username = "ciro.neto16@gmail.com";
         password = "123";
     }
 
@@ -70,9 +70,8 @@ public class BusinessFunctionPermissionControllerIT {
         BusinessFunction businessFunction = businessFunctionRepository.save(BusinessFunctionFactory.createBusinessFunctionToBeSaved());
 
         BusinessFunctionPermissionRequestBody dto = BusinessFunctionPermissionFactory.createEmptyPostBusinessFunctionPermissionObject();
-        dto.setPermission(permission.getName());
-        dto.setFunctionName(businessFunction.getFunctionName());
-        dto.setApplicationName(businessFunction.getApplicationName());
+        dto.setBusinessFunctionId(businessFunction.getId());
+        dto.setPermissionId(permission.getId());
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
@@ -85,20 +84,18 @@ public class BusinessFunctionPermissionControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(MockMvcResultMatchers.status().isOk());
-        result.andExpect(MockMvcResultMatchers.jsonPath("$.businessFunctionPermissionCreatedId").exists());
+        result.andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
     }
 
     @Test
     void createBusinessFunctionPermission_shouldReturnNotFound_WhenBusinessFunctionDoesNotExists() throws Exception{
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
         Permission permissionSaved = permissionRepository.save(PermissionFactory.createPermissionToBeSaved());
-        String notValidBusinessFunctionName = "not valid name";
-        String notValidBusinessFunctionApp = "not valid app";
+        Long notValidBusinessFunction = 999999L;
 
         BusinessFunctionPermissionRequestBody dto = BusinessFunctionPermissionFactory.createEmptyPostBusinessFunctionPermissionObject();
-        dto.setPermission(permissionSaved.getName());
-        dto.setFunctionName(notValidBusinessFunctionName);
-        dto.setApplicationName(notValidBusinessFunctionApp);
+        dto.setPermissionId(permissionSaved.getId());
+        dto.setBusinessFunctionId(notValidBusinessFunction);
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
@@ -111,19 +108,18 @@ public class BusinessFunctionPermissionControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(r -> assertTrue(r.getResolvedException().getMessage().contains("Business Function and/or Permission does not exist")));
+                .andExpect(r -> assertTrue(r.getResolvedException().getMessage().contains("Business Function does not exist")));
     }
 
     @Test
     void createBusinessFunctionPermission_shouldReturnNotFound_WhenPermissionDoesNotExists() throws Exception{
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
         BusinessFunction businessFunctionSaved = businessFunctionRepository.save(BusinessFunctionFactory.createBusinessFunctionToBeSaved());
-        String notValidPermission = "not valid name";
+        Long notValidPermission = 999999L;
 
         BusinessFunctionPermissionRequestBody dto = BusinessFunctionPermissionFactory.createEmptyPostBusinessFunctionPermissionObject();
-        dto.setPermission(notValidPermission);
-        dto.setFunctionName(businessFunctionSaved.getFunctionName());
-        dto.setApplicationName(businessFunctionSaved.getApplicationName());
+        dto.setBusinessFunctionId(businessFunctionSaved.getId());
+        dto.setPermissionId(notValidPermission);
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
@@ -136,7 +132,7 @@ public class BusinessFunctionPermissionControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(r -> assertTrue(r.getResolvedException().getMessage().contains("Business Function and/or Permission does not exist")));
+                .andExpect(r -> assertTrue(r.getResolvedException().getMessage().contains("Permission does not exist")));
     }
 
     @Test
@@ -152,9 +148,8 @@ public class BusinessFunctionPermissionControllerIT {
         BusinessFunctionPermission savedEntity = businessFunctionPermissionRepository.save(entity);
 
         BusinessFunctionPermissionRequestBody dto = BusinessFunctionPermissionFactory.createEmptyPostBusinessFunctionPermissionObject();
-        dto.setPermission(permission.getName());
-        dto.setFunctionName(businessFunction.getFunctionName());
-        dto.setApplicationName(businessFunction.getApplicationName());
+        dto.setPermissionId(permission.getId());
+        dto.setBusinessFunctionId(businessFunction.getId());
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 

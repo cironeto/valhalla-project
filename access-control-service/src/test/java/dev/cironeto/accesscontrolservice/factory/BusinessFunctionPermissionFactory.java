@@ -6,9 +6,8 @@ public class BusinessFunctionPermissionFactory {
 
     public static BusinessFunctionPermissionRequestBody createValidPostBusinessFunctionPermission(){
         BusinessFunctionPermissionRequestBody dto = new BusinessFunctionPermissionRequestBody();
-        dto.setFunctionName("function-test");
-        dto.setPermission("permission-test");
-        dto.setApplicationName("App-test");
+        dto.setPermissionId(1L);
+        dto.setBusinessFunctionId(1L);
         return dto;
     }
 
