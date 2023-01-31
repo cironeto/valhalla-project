@@ -23,6 +23,8 @@ public class AppUserPostRequestBody {
     private String firstName;
     @NotBlank
     private String lastName;
+    @NotBlank
+    private String applicationName;
     
     
     public AppUserPostRequestBody(AppUser entity) {
@@ -30,5 +32,6 @@ public class AppUserPostRequestBody {
     	this.password = entity.getPassword();
     	this.firstName = entity.getFirstName();
     	this.lastName = entity.getLastName();
+        this.applicationName = entity.getApplicationName();
     }
 }

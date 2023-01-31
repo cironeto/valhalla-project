@@ -28,5 +28,5 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     "AND per.name = :permission " +
     "AND au.id = :userId"
     )
-    String validateAccess(String applicationName, String functionName, String permission, String userId);
+    String hasPermission(String applicationName, String functionName, String permission, String userId);
 }

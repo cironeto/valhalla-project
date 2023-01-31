@@ -5,6 +5,7 @@ import dev.cironeto.accesscontrolservice.dto.AppUserRequestBody;
 import dev.cironeto.accesscontrolservice.exception.BadRequestException;
 import dev.cironeto.accesscontrolservice.model.AppUser;
 import dev.cironeto.accesscontrolservice.repository.AppUserRepository;
+import dev.cironeto.accesscontrolservice.validation.BeanValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,15 @@ public class AppUserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public AppUser save(UUID keycloakId, AppUserPostRequestBody userDto){
+        BeanValidator.validate(userDto);
+
         AppUser appUser = new AppUser();
         appUser.setId(keycloakId);
         appUser.setEmail(userDto.getEmail());
         appUser.setFirstName(userDto.getFirstName());
         appUser.setLastName(userDto.getLastName());
         appUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        appUser.setApplicationName(userDto.getApplicationName());
         AppUser savedAppUser = appUserRepository.save(appUser);
         return savedAppUser;
     }
@@ -50,6 +54,7 @@ public class AppUserService {
             appUser.setPassword(dto.getPassword());
             appUser.setFirstName(dto.getFirstName());
             appUser.setLastName(dto.getLastName());
+            appUser.setApplicationName(dto.getApplicationName());
             AppUser appUserSaved = appUserRepository.save(appUser);
             return new AppUserRequestBody(appUserSaved);
         } catch (Exception e){

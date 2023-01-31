@@ -17,6 +17,7 @@ public class AppUserRequestBody {
     private String email;
     private String firstName;
     private String lastName;
+    private String applicationName;
 
 
     public AppUserRequestBody(AppUser entity) {
@@ -24,5 +25,6 @@ public class AppUserRequestBody {
     	this.email = entity.getEmail();
     	this.firstName = entity.getFirstName();
     	this.lastName = entity.getLastName();
+        this.applicationName = entity.getApplicationName();
     }
 }

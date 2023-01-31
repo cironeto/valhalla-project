@@ -6,6 +6,7 @@ import dev.cironeto.accesscontrolservice.service.KeycloakService;
 import dev.cironeto.accesscontrolservice.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,21 +26,25 @@ public class AppUserController {
 	}
 
 	@GetMapping(value = "/find/all")
+	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'view')")
 	public ResponseEntity<List<AppUserRequestBody>> findAll(){
 		return ResponseEntity.ok(appUserService.findAll());
 	}
 
 	@GetMapping(value = "/find/{id}")
+	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'view')")
 	public ResponseEntity<AppUserRequestBody> findById(@PathVariable UUID id){
 		return ResponseEntity.ok(appUserService.findById(id));
 	}
 
 	@PutMapping(value = "/{id}")
+	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'delete')")
 	public ResponseEntity<AppUserRequestBody> update(@PathVariable UUID id, @RequestBody AppUserPostRequestBody dto){
 		return ResponseEntity.ok(appUserService.update(id, dto));
 	}
 
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'edit')")
 	public ResponseEntity<Void> delete(@PathVariable UUID id){
 		appUserService.delete(id);
 		return ResponseEntity.noContent().build();

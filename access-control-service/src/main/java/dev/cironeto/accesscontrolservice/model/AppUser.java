@@ -37,5 +37,7 @@ public class AppUser {
     @NotBlank
     private String lastName;
     private String password;
+    @NotBlank
+    private String applicationName;
 
 }
