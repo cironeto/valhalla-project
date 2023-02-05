@@ -26,25 +26,25 @@ public class AppUserController {
 	}
 
 	@GetMapping(value = "/find/all")
-	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'view')")
+	@PreAuthorize("@accessControlService.validateAccess('view-content', 'view')")
 	public ResponseEntity<List<AppUserRequestBody>> findAll(){
 		return ResponseEntity.ok(appUserService.findAll());
 	}
 
 	@GetMapping(value = "/find/{id}")
-	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'view')")
+	@PreAuthorize("@accessControlService.validateAccess('view-content', 'view')")
 	public ResponseEntity<AppUserRequestBody> findById(@PathVariable UUID id){
 		return ResponseEntity.ok(appUserService.findById(id));
 	}
 
 	@PutMapping(value = "/{id}")
-	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'delete')")
+	@PreAuthorize("@accessControlService.validateAccess('view-content', 'edit')")
 	public ResponseEntity<AppUserRequestBody> update(@PathVariable UUID id, @RequestBody AppUserPostRequestBody dto){
 		return ResponseEntity.ok(appUserService.update(id, dto));
 	}
 
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("@accessControlService.validateAccess('view.anime', 'edit')")
+	@PreAuthorize("@accessControlService.validateAccess('view-content', 'delete')")
 	public ResponseEntity<Void> delete(@PathVariable UUID id){
 		appUserService.delete(id);
 		return ResponseEntity.noContent().build();
